@@ -4,16 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Palantir | Автоматизация лидогенерации</title>
-    
+    <!-- Классическая иконка для вкладок на ПК (32x32) -->
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
-    <link rel="icon" type="image/svg+xml" href="icon.svg">
-    <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0a0c">
     
+    <!-- Современная векторная иконка (поддерживается новыми браузерами) -->
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    
+    <!-- Иконка для добавления сайта на рабочий стол iPhone/iPad (180x180) -->
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    
+    <!-- Цвет интерфейса мобильного браузера (красит верхнюю шторку на Android в цвет сайта) -->
+    <meta name="theme-color" content="#0a0a0c">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,49 +35,48 @@
     </header>
 
     <section class="hero" id="hero">
-        <div class="hero-decor decor-blue-glow"></div>
-        <div class="hero-decor decor-green-glow"></div>
-        <div class="hero-decor decor-grid"></div>
-
-        <div class="container hero-container">
-            <div class="hero-content reveal active">
-                <div class="badge">Десктопная версия 2.0</div>
+        <div class="background-grid"></div>
+        
+        <div class="container hero-container reveal active">
+            <div class="hero-content">
+                <div class="badge">Версия 2.0</div>
                 <h1>Автоматизируй генерацию лидов: вся мощь в одном приложении</h1>
                 <p>Преврати свой ПК в автономную машину по добыче трафика. Идеально для старта. Незаменимо для масштабирования.</p>
-                
-                <div class="hero-actions">
-                    <a href="#action" class="btn btn-primary hero-btn-main">Настроить поток клиентов</a>
-                </div>
-
-                <div class="hero-tags">
-                    <div class="data-tag"><span class="tag-icon">🎯</span>Парсинг данных</div>
-                    <div class="data-tag"><span class="tag-icon">✉️</span>Авторассылки</div>
-                    <div class="data-tag"><span class="tag-icon">🗄️</span>Умная база</div>
-                    <div class="data-tag"><span class="tag-icon">📊</span>Сквозная CRM</div>
-                </div>
+                <a href="#action" class="btn btn-primary hero-btn-main">Настроить поток клиентов</a>
             </div>
             
-            <div class="hero-visual reveal active reveal-delay">
-                <img src="palantir-interface.png" alt="Интерфейс Palantir" class="hero-screenshot">
+            <div class="hero-visual">
+                <img src="palantir-interface.png" alt="Интерфейс программы Palantir" class="hero-screenshot">
+            </div>
+            
+            <div class="hero-data-points">
+                <div class="data-point"><span>🎯</span>Парсинг</div>
+                <div class="data-point"><span>✉️</span>Рассылка</div>
+                <div class="data-point"><span>🗄️</span>База данных</div>
+                <div class="data-point"><span>📊</span>С CRM</div>
             </div>
         </div>
     </section>
 
+    <!-- Блок INTEREST: Проблема и Решение -->
     <section id="interest" class="interest-section">
         <div class="container">
             
+            <!-- Секция Проблемы (Разделение аудитории) -->
             <div class="section-header reveal">
                 <h2>Два сценария — один инструмент</h2>
                 <p>Мы знаем, что вас останавливает от кратного роста.</p>
             </div>
 
             <div class="problem-grid">
+                <!-- Карточка для новичков -->
                 <div class="problem-card reveal">
                     <div class="card-icon">📉</div>
                     <h3>Нет клиентов = нет бизнеса</h3>
                     <p>Для начинающих предпринимателей. Слив бюджета на тесты, непонимание настроек таргета и страх перед пустым пайплайном. Вы тратите время на рутину, а не на продажи.</p>
                 </div>
                 
+                <!-- Карточка для опытных -->
                 <div class="problem-card reveal reveal-delay">
                     <div class="card-icon">🚧</div>
                     <h3>Стеклянный потолок</h3>
@@ -81,6 +84,7 @@
                 </div>
             </div>
 
+            <!-- Секция Решения (Бизнес-процесс) -->
             <div class="solution-wrapper reveal">
                 <div class="solution-header">
                     <h2>Palantir: Единая экосистема вашего трафика</h2>
@@ -259,7 +263,7 @@
             </div>
         </div>
     </section>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
