@@ -151,9 +151,9 @@ document.addEventListener("DOMContentLoaded", function() {
         try {
             const response = await fetch(webhookUrl, {
                 method: 'POST',
+                // Меняем заголовок на обычный текст, чтобы обойти блокировки CORS
                 headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
+                    'Content-Type': 'text/plain' 
                 },
                 body: JSON.stringify(formData) 
             });
