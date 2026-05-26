@@ -180,6 +180,53 @@
         </div>
     </section>
 
+    <!-- Блок ACTION: Форма захвата -->
+    <section id="action" class="action-section">
+        <div class="container action-container">
+            <div class="action-box reveal">
+                <!-- Заголовок, который будет меняться через JS -->
+                <h2 id="form-dynamic-title">Оформление <span>подписки</span></h2>
+                <p>Оставьте данные, и система автоматически подготовит доступ к Palantir.</p>
+                
+                <form id="palantir-form" class="lead-form" novalidate>
+                    <!-- Скрытое поле для передачи тарифа разработчикам -->
+                    <input type="hidden" id="hidden-plan-input" name="tariff_plan" value="standard">
+                    
+                    <div class="form-group">
+                        <input type="text" id="user_name" name="user_name" placeholder=" " required>
+                        <label for="user_name">Ваше имя</label>
+                        <span class="error-msg">Введите имя (минимум 2 буквы)</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" id="user_phone" name="user_phone" placeholder=" " required>
+                        <label for="user_phone">Телефон</label>
+                        <span class="error-msg">Введите корректный номер</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="user_email" name="user_email" placeholder=" " required>
+                        <label for="user_email">Email</label>
+                        <span class="error-msg">Неверный формат Email</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="user_telegram" name="user_telegram" placeholder=" ">
+                        <label for="user_telegram">Telegram (опционально)</label>
+                        <span class="error-msg">Неверный формат (@login)</span>
+                    </div>
+                    
+                    <div class="form-checkbox">
+                        <input type="checkbox" id="privacy" checked required>
+                        <label for="privacy">Я согласен на обработку персональных данных</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary submit-btn" id="submit-btn" disabled>Перейти к оплате</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    
     <script src="script.js"></script>
 </body>
 </html>
