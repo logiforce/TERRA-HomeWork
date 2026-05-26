@@ -463,6 +463,7 @@ body {
     text-align: left;
     position: relative;
     transition: all 0.3s ease;
+    cursor: default;
 }
 
 .pricing-card:hover {
@@ -608,6 +609,7 @@ body {
     font-size: 32px;
     color: #ffffff;
     margin-bottom: 12px;
+    cursor: default;
 }
 
 .action-box h2 span {
