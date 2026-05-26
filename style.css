@@ -1073,7 +1073,7 @@ body {
             rgba(16,185,129,0.45) 0%,
             rgba(59,130,246,0.35) 25%,
             rgba(59,130,246,0.12) 45%,
-            transparent 70%
+            transparent 25%
         ),
 
         /* Малый кластер слева снизу */
@@ -1081,12 +1081,12 @@ body {
             circle at 15% 82%,
             rgba(59,130,246,0.35) 0%,
             rgba(16,185,129,0.18) 30%,
-            transparent 65%
+            transparent 10%
         );
 
-    filter: blur(35px);
+    filter: blur(50px);
 
-    opacity: 0.7;
+    opacity: 0.3;
 }
 
 .desire-section::after {
