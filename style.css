@@ -821,3 +821,86 @@ body {
         transform: translateY(0); 
     }
 }
+
+/* =========================================
+   NEW: Цены в карточках тарифов
+   ========================================= */
+.pricing-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.pricing-top .pricing-title {
+    margin-bottom: 0; /* Убираем отступ, так как он теперь у обертки */
+}
+
+.pricing-price {
+    font-size: 22px;
+    font-weight: 800;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 4px 12px;
+    border-radius: 8px;
+}
+
+.pricing-price span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #94a3b8;
+}
+
+.pro-card .pricing-price {
+    background: #3b82f6;
+    color: #ffffff;
+}
+.pro-card .pricing-price span {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* =========================================
+   NEW: Переключатель тарифов внутри формы (Сегментированный контрол)
+   ========================================= */
+.form-plan-selector {
+    display: flex;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+}
+
+.plan-radio {
+    flex: 1;
+    position: relative;
+}
+
+.plan-radio input {
+    display: none; /* Прячем стандартный кружочек радиокнопки */
+}
+
+.plan-label {
+    display: block;
+    text-align: center;
+    padding: 12px 0;
+    color: #94a3b8;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.plan-label:hover {
+    color: #ffffff;
+}
+
+/* Состояние выбранного тарифа в форме */
+.plan-radio input:checked + .plan-label {
+    background: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+}
