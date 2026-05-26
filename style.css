@@ -503,8 +503,12 @@ body {
    Блок DESIRE (Инструментарий и Тарифы)
    ========================================= */
 .desire-section {
+    position: relative;
+    overflow: hidden;
+
     padding: 120px 0;
-    background-color: #0a0a0c; /* Возвращаемся к основному темному фону */
+
+    background-color: #0a0a0c;
 }
 
 /* Сетка Инструментария */
@@ -1051,3 +1055,96 @@ body {
 background-image:
     radial-gradient(circle at 10% 20%, rgba(59,130,246,0.12) 0%, transparent 60%),
     radial-gradient(circle at 80% 80%, rgba(16,185,129,0.10) 0%, transparent 50%);
+
+/* =========================================
+   DATA GRID BACKGROUND
+========================================= */
+
+.desire-section::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 0;
+
+    background-image:
+
+        /* Верхний правый источник */
+        radial-gradient(
+            ellipse 900px 700px
+            at 82% 18%,
+            rgba(16,185,129,0.12) 0%,
+            rgba(59,130,246,0.08) 35%,
+            transparent 75%
+        ),
+
+        /* Нижний левый источник */
+        radial-gradient(
+            ellipse 650px 550px
+            at 18% 82%,
+            rgba(59,130,246,0.08) 0%,
+            rgba(16,185,129,0.05) 45%,
+            transparent 80%
+        );
+}
+
+.desire-section::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 0;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.18) 1px,
+            transparent 1.5px
+        );
+
+    background-size: 32px 32px;
+
+    opacity: 0.25;
+
+    mask-image:
+        radial-gradient(
+            ellipse 900px 700px
+            at 82% 18%,
+            rgba(255,255,255,1),
+            rgba(255,255,255,0.5) 40%,
+            transparent 85%
+        ),
+        radial-gradient(
+            ellipse 650px 550px
+            at 18% 82%,
+            rgba(255,255,255,0.8),
+            rgba(255,255,255,0.3) 45%,
+            transparent 90%
+        );
+
+    -webkit-mask-image:
+        radial-gradient(
+            ellipse 900px 700px
+            at 82% 18%,
+            rgba(255,255,255,1),
+            rgba(255,255,255,0.5) 40%,
+            transparent 85%
+        ),
+        radial-gradient(
+            ellipse 650px 550px
+            at 18% 82%,
+            rgba(255,255,255,0.8),
+            rgba(255,255,255,0.3) 45%,
+            transparent 90%
+        );
+}
+
+.desire-section .container {
+    position: relative;
+    z-index: 2;
+}
