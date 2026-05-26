@@ -123,12 +123,12 @@ document.addEventListener("DOMContentLoaded", function() {
     privacyCheckbox.addEventListener('change', checkFormValidity);
 
     /* =========================================
-       5. Отправка данных через Webhook (Fetch API)
+       5. Отправка данных через Webhook (Режим no-cors)
        ========================================= */
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        // 1. Собираем данные (теперь берем тариф из выбранной радио-кнопки)
+        // 1. Собираем данные
         const selectedPlanValue = document.querySelector('input[name="tariff_plan"]:checked').value;
         
         const formData = {
@@ -145,30 +145,27 @@ document.addEventListener("DOMContentLoaded", function() {
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
 
-        // ВАШ ВЕБХУК
+        // ВАШ ВЕБХУК (Убедитесь, что тут HTTPS!)
         const webhookUrl = 'https://webhook.site/70f8abea-489d-48be-acbc-5bad21060ab7';
 
         try {
-            const response = await fetch(webhookUrl, {
+            // Отправляем запрос в режиме 'no-cors', чтобы обойти блокировки браузера
+            await fetch(webhookUrl, {
                 method: 'POST',
-                // Меняем заголовок на обычный текст, чтобы обойти блокировки CORS
-                headers: {
-                    'Content-Type': 'text/plain' 
-                },
+                mode: 'no-cors',
                 body: JSON.stringify(formData) 
             });
 
-            if (response.ok) {
-                const formBox = document.querySelector('.action-box');
-                formBox.innerHTML = `
-                    <div class="success-message">
-                        <h3>Заявка успешно принята</h3>
-                        <p>Доступ к системе Palantir готовится.<br>Мы свяжемся с вами в ближайшее время по указанным контактам.</p>
-                    </div>
-                `;
-            } else {
-                throw new Error('Ошибка сервера');
-            }
+            // Если скрипт дошел сюда и не выдал ошибку catch, значит запрос улетел!
+            // Показываем красивое сообщение об успехе:
+            const formBox = document.querySelector('.action-box');
+            formBox.innerHTML = `
+                <div class="success-message">
+                    <h3>Заявка успешно принята</h3>
+                    <p>Доступ к системе Palantir готовится.<br>Мы свяжемся с вами в ближайшее время по указанным контактам.</p>
+                </div>
+            `;
+            
         } catch (error) {
             console.error('Ошибка:', error);
             alert('Ошибка отправки: ' + error.message);
