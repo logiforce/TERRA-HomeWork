@@ -1020,3 +1020,34 @@ body {
     stroke: rgba(59,130,246,0.06);
     stroke-width: 1;
 }
+
+@keyframes waveFloat {
+
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+
+}
+
+.wave {
+    fill: none;
+    stroke-linecap: round;
+
+    filter:
+        drop-shadow(0 0 4px rgba(16,185,129,0.15))
+        drop-shadow(0 0 10px rgba(16,185,129,0.08));
+
+    animation: waveFloat 12s ease-in-out infinite;
+}
+
+background-image:
+    radial-gradient(circle at 10% 20%, rgba(59,130,246,0.12) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(16,185,129,0.10) 0%, transparent 50%);
