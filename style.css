@@ -520,7 +520,7 @@ body {
 }
 
 .feature-card {
-    background: rgba(255, 255, 255, 0.02);
+    background: #111318;
     border-radius: 16px;
     padding: 40px;
     display: flex;
@@ -530,7 +530,7 @@ body {
 }
 
 .feature-card:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: #151b23;
     border-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -1062,37 +1062,90 @@ body {
     position: absolute;
     inset: 0;
 
-    z-index: 0;
     pointer-events: none;
+    z-index: 0;
+
+    background:
+
+        /* Крупный кластер справа сверху */
+        radial-gradient(
+            circle at 85% 18%,
+            rgba(16,185,129,0.45) 0%,
+            rgba(59,130,246,0.35) 25%,
+            rgba(59,130,246,0.12) 45%,
+            transparent 70%
+        ),
+
+        /* Малый кластер слева снизу */
+        radial-gradient(
+            circle at 15% 82%,
+            rgba(59,130,246,0.35) 0%,
+            rgba(16,185,129,0.18) 30%,
+            transparent 65%
+        );
+
+    filter: blur(35px);
+
+    opacity: 0.7;
+}
+
+.desire-section::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    pointer-events: none;
+    z-index: 1;
 
     background-image:
 
         radial-gradient(
-            circle at 85% 15%,
-            rgba(16,185,129,0.85) 0%,
-            rgba(59,130,246,0.65) 25%,
-            rgba(59,130,246,0.25) 45%,
-            transparent 70%
+            circle,
+            rgba(255,255,255,0.95) 0px,
+            rgba(255,255,255,0.4) 3px,
+            transparent 8px
+        );
+
+    background-size: 120px 120px;
+
+    mix-blend-mode: screen;
+
+    opacity: 0.7;
+
+    mask:
+        radial-gradient(
+            ellipse 900px 700px
+            at 85% 18%,
+            rgba(255,255,255,1),
+            rgba(255,255,255,0.4) 55%,
+            transparent 90%
         ),
 
         radial-gradient(
-            circle at 12% 82%,
-            rgba(59,130,246,0.65) 0%,
-            rgba(16,185,129,0.40) 30%,
-            transparent 65%
+            ellipse 600px 500px
+            at 15% 82%,
+            rgba(255,255,255,0.8),
+            rgba(255,255,255,0.3) 50%,
+            transparent 90%
         );
 
-    -webkit-mask-image:
-        radial-gradient(circle, #fff 3px, transparent 4px);
+    -webkit-mask:
+        radial-gradient(
+            ellipse 900px 700px
+            at 85% 18%,
+            rgba(255,255,255,1),
+            rgba(255,255,255,0.4) 55%,
+            transparent 90%
+        ),
 
-    -webkit-mask-size: 25px 25px;
-
-    mask-image:
-        radial-gradient(circle, #fff 1px, transparent 2px);
-
-    mask-size: 25px 25px;
-
-    opacity: 0.45;
+        radial-gradient(
+            ellipse 600px 500px
+            at 15% 82%,
+            rgba(255,255,255,0.8),
+            rgba(255,255,255,0.3) 50%,
+            transparent 90%
+        );
 }
 
 .desire-section .container {
