@@ -42,30 +42,34 @@ document.addEventListener("DOMContentLoaded", function() {
     /* =========================================
        3. Логика выбора тарифа (Подготовка к блоку Action)
        ========================================= */
-    // Находим все кнопки в тарифах
     const pricingButtons = document.querySelectorAll('.pricing-btn');
     
     pricingButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            // Узнаем, какой тариф выбрали (берем из data-plan)
             const selectedPlan = this.getAttribute('data-plan');
             
-            // Названия тарифов для красивого вывода в форме
             const planNames = {
                 'standard': 'Стандарт',
                 'pro': 'ПРО',
                 'expert': 'Эксперт'
             };
 
-            // Пытаемся найти элементы формы (мы их создадим в следующем шаге)
             const formTitle = document.getElementById('form-dynamic-title');
             const hiddenPlanInput = document.getElementById('hidden-plan-input');
 
-            // Если форма уже есть на странице - обновляем ее данные
             if (formTitle && hiddenPlanInput) {
                 formTitle.innerHTML = `Оформление подписки: <span>Тариф ${planNames[selectedPlan]}</span>`;
                 hiddenPlanInput.value = selectedPlan;
             }
+
+            // МАГИЯ UX: Ждем 800 миллисекунд (пока идет плавный скролл) 
+            // и автоматически ставим курсор в поле "Ваше имя"
+            setTimeout(() => {
+                const nameInput = document.getElementById('user_name');
+                if (nameInput) {
+                    nameInput.focus();
+                }
+            }, 800);
         });
     });
 
