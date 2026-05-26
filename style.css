@@ -1062,38 +1062,37 @@ body {
     position: absolute;
     inset: 0;
 
-    pointer-events: none;
     z-index: 0;
+    pointer-events: none;
 
-    background:
+    background-image:
 
-        /* Верхний правый кластер */
         radial-gradient(
-            ellipse 900px 700px at 85% 20%,
-            rgba(16,185,129,0.20) 0%,
-            rgba(59,130,246,0.15) 25%,
+            circle at 85% 15%,
+            rgba(16,185,129,0.85) 0%,
+            rgba(59,130,246,0.65) 25%,
+            rgba(59,130,246,0.25) 45%,
             transparent 70%
         ),
 
-        /* Нижний левый кластер */
         radial-gradient(
-            ellipse 650px 500px at 15% 85%,
-            rgba(59,130,246,0.14) 0%,
-            rgba(16,185,129,0.08) 30%,
-            transparent 75%
+            circle at 12% 82%,
+            rgba(59,130,246,0.65) 0%,
+            rgba(16,185,129,0.40) 30%,
+            transparent 65%
         );
 
-    mask:
-        radial-gradient(circle, #fff 1px, transparent 1.6px);
+    -webkit-mask-image:
+        radial-gradient(circle, #fff 3px, transparent 4px);
 
-    mask-size: 28px 28px;
+    -webkit-mask-size: 140px 140px;
 
-    -webkit-mask:
-        radial-gradient(circle, #fff 1px, transparent 1.6px);
+    mask-image:
+        radial-gradient(circle, #fff 3px, transparent 4px);
 
-    -webkit-mask-size: 28px 28px;
+    mask-size: 140px 140px;
 
-    opacity: 0.35;
+    opacity: 0.45;
 }
 
 .desire-section .container {
