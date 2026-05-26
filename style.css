@@ -1088,7 +1088,7 @@ body {
     -webkit-mask-size: 25px 25px;
 
     mask-image:
-        radial-gradient(circle, #fff 2px, transparent 3px);
+        radial-gradient(circle, #fff 1px, transparent 2px);
 
     mask-size: 25px 25px;
 
