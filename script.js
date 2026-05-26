@@ -69,4 +69,68 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
+    /* =========================================
+       4. Валидация формы (Action Block)
+       ========================================= */
+    const form = document.getElementById('palantir-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const inputs = form.querySelectorAll('input[required]');
+    const privacyCheckbox = document.getElementById('privacy');
+
+    // Регулярные выражения для проверок
+    const patterns = {
+        user_name: /^[A-Za-zА-Яа-яЁё\s]{2,50}$/,
+        user_phone: /^[0-9\+\-\(\)\s]{10,20}$/, // Упрощенная проверка для цифр и знаков
+        user_email: /^[^@\s]+@[^@\s]+\.[^@\s]+$/
+    };
+
+    function validateInput(input) {
+        if (patterns[input.name]) {
+            const isValid = patterns[input.name].test(input.value);
+            const formGroup = input.parentElement;
+            
+            if (isValid) {
+                formGroup.classList.remove('invalid');
+                return true;
+            } else {
+                if(input.value !== '') formGroup.classList.add('invalid');
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function checkFormValidity() {
+        let isFormValid = true;
+        
+        inputs.forEach(input => {
+            if (input.type !== 'checkbox' && !validateInput(input)) {
+                isFormValid = false;
+            }
+        });
+
+        if (!privacyCheckbox.checked) {
+            isFormValid = false;
+        }
+
+        // Включаем или выключаем кнопку
+        submitBtn.disabled = !isFormValid;
+    }
+
+    // Слушаем изменения в полях в реальном времени
+    inputs.forEach(input => {
+        input.addEventListener('input', () => {
+            validateInput(input);
+            checkFormValidity();
+        });
+    });
+
+    privacyCheckbox.addEventListener('change', checkFormValidity);
+
+    // Запрет отправки формы по умолчанию (пока нет бэкенда)
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Данные успешно подготовлены для разработчиков! Выбранный тариф: ' + document.getElementById('hidden-plan-input').value);
+    });
+    
 });
