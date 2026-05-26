@@ -159,7 +159,10 @@
             <div class="pricing-grid">
                 
                 <div class="pricing-card reveal">
-                    <div class="pricing-title">Стандарт</div>
+                    <div class="pricing-top">
+                        <div class="pricing-title">Стандарт</div>
+                        <div class="pricing-price">2 990 ₽<span>/мес</span></div>
+                    </div>
                     <div class="pricing-desc">Для уверенного старта</div>
                     <ul class="pricing-features">
                         <li>✔️ Парсинг аудитории (базовый)</li>
@@ -172,7 +175,10 @@
 
                 <div class="pricing-card pro-card reveal reveal-delay">
                     <div class="pro-badge">Выбор предпринимателей</div>
-                    <div class="pricing-title">ПРО</div>
+                    <div class="pricing-top">
+                        <div class="pricing-title">ПРО</div>
+                        <div class="pricing-price">5 990 ₽<span>/мес</span></div>
+                    </div>
                     <div class="pricing-desc">Для масштабирования</div>
                     <ul class="pricing-features">
                         <li>✔️ <b>Всё, что в Стандарте, плюс:</b></li>
@@ -184,7 +190,10 @@
                 </div>
 
                 <div class="pricing-card reveal">
-                    <div class="pricing-title">Эксперт</div>
+                    <div class="pricing-top">
+                        <div class="pricing-title">Эксперт</div>
+                        <div class="pricing-price">9 990 ₽<span>/мес</span></div>
+                    </div>
                     <div class="pricing-desc">Автоматизация под ключ</div>
                     <ul class="pricing-features">
                         <li>✔️ <b>Всё, что в ПРО, плюс:</b></li>
@@ -199,17 +208,28 @@
         </div>
     </section>
 
-    <!-- Блок ACTION: Форма захвата -->
     <section id="action" class="action-section">
         <div class="container action-container">
             <div class="action-box reveal">
-                <!-- Заголовок, который будет меняться через JS -->
-                <h2 id="form-dynamic-title">Оформление <span>подписки</span></h2>
-                <p>Оставьте данные, и система автоматически подготовит доступ к Palantir.</p>
+                <h2>Оформление <span>подписки</span></h2>
+                <p>Выберите тариф и оставьте данные для доступа к Palantir.</p>
                 
                 <form id="palantir-form" class="lead-form" novalidate>
-                    <!-- Скрытое поле для передачи тарифа разработчикам -->
-                    <input type="hidden" id="hidden-plan-input" name="tariff_plan" value="standard">
+                    
+                    <div class="form-plan-selector">
+                        <label class="plan-radio">
+                            <input type="radio" name="tariff_plan" value="standard">
+                            <span class="plan-label">Стандарт</span>
+                        </label>
+                        <label class="plan-radio">
+                            <input type="radio" name="tariff_plan" value="pro" checked>
+                            <span class="plan-label">Тариф ПРО</span>
+                        </label>
+                        <label class="plan-radio">
+                            <input type="radio" name="tariff_plan" value="expert">
+                            <span class="plan-label">Эксперт</span>
+                        </label>
+                    </div>
                     
                     <div class="form-group">
                         <input type="text" id="user_name" name="user_name" placeholder=" " required>
