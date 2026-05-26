@@ -212,3 +212,166 @@ body {
         font-size: 36px;
     }
 }
+
+/* =========================================
+   Блок INTEREST (Проблема и Решение)
+   ========================================= */
+.interest-section {
+    padding: 120px 0;
+    background-color: #0d0d12; /* Чуть светлее фона первого экрана для визуального разделения */
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-header h2 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.section-header p {
+    font-size: 18px;
+    color: #94a3b8;
+}
+
+/* Сетка проблем */
+.problem-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 100px;
+}
+
+.problem-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 40px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Премиальный Hover-эффект (подсветка рамки при наведении) */
+.problem-card:hover {
+    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card-icon {
+    font-size: 40px;
+    margin-bottom: 24px;
+}
+
+.problem-card h3 {
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 16px;
+}
+
+.problem-card p {
+    color: #94a3b8;
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+/* Секция Решения */
+.solution-wrapper {
+    background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
+    border-top: 1px solid rgba(59, 130, 246, 0.1);
+    border-radius: 24px;
+    padding: 60px;
+    text-align: center;
+}
+
+.solution-header h2 {
+    font-size: 32px;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.solution-header p {
+    color: #94a3b8;
+    margin-bottom: 50px;
+}
+
+/* Процесс (Шаги) */
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.process-step {
+    text-align: left;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    transition: transform 0.3s ease;
+}
+
+.process-step:hover {
+    transform: translateY(-5px);
+}
+
+.step-number {
+    font-size: 14px;
+    font-weight: 800;
+    color: #3b82f6;
+    margin-bottom: 16px;
+}
+
+.process-step h4 {
+    color: #ffffff;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.process-step p {
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* =========================================
+   Анимации при скролле (Scroll Reveal)
+   ========================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px); /* Элемент смещен вниз на 40px */
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* Плавная кривая анимации */
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0); /* Возвращается на свое место */
+}
+
+.reveal-delay {
+    transition-delay: 0.2s; /* Задержка для второй карточки, чтобы появлялись по очереди */
+}
+
+/* Адаптивность для второго блока */
+@media (max-width: 992px) {
+    .problem-grid {
+        grid-template-columns: 1fr;
+    }
+    .process-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    .solution-wrapper {
+        padding: 40px 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+}
