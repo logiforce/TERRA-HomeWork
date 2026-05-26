@@ -171,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         } catch (error) {
             console.error('Ошибка:', error);
-            alert('Произошла ошибка при соединении с сервером. Пожалуйста, попробуйте еще раз.');
+            alert('Ошибка отправки: ' + error.message);
             submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
             submitBtn.style.opacity = '1';
