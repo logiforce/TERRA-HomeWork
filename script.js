@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
         submitBtn.style.opacity = '0.7';
 
         // 3. ВСТАВЬТЕ СЮДА ВАШ URL ВЕБХУКА (между кавычками)
-        const webhookUrl = 'https://ВАШ_АДРЕС_ВЕБХУКА_ЗДЕСЬ';
+        const webhookUrl = 'https://webhook.site/70f8abea-489d-48be-acbc-5bad21060ab7';
 
         try {
             // 4. Отправляем POST-запрос на вебхук
