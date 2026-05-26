@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     /* =========================================
-       3. Логика выбора тарифа (Подготовка к блоку Action)
+       3. Логика выбора тарифа (Связь карточек с формой)
        ========================================= */
     const pricingButtons = document.querySelectorAll('.pricing-btn');
     
@@ -48,22 +48,13 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener('click', function(e) {
             const selectedPlan = this.getAttribute('data-plan');
             
-            const planNames = {
-                'standard': 'Стандарт',
-                'pro': 'ПРО',
-                'expert': 'Эксперт'
-            };
-
-            const formTitle = document.getElementById('form-dynamic-title');
-            const hiddenPlanInput = document.getElementById('hidden-plan-input');
-
-            if (formTitle && hiddenPlanInput) {
-                formTitle.innerHTML = `Оформление подписки: <span>Тариф ${planNames[selectedPlan]}</span>`;
-                hiddenPlanInput.value = selectedPlan;
+            // Находим нужную радио-кнопку в форме и делаем её активной
+            const radioToSelect = document.querySelector(`input[name="tariff_plan"][value="${selectedPlan}"]`);
+            if (radioToSelect) {
+                radioToSelect.checked = true;
             }
 
-            // МАГИЯ UX: Ждем 800 миллисекунд (пока идет плавный скролл) 
-            // и автоматически ставим курсор в поле "Ваше имя"
+            // Ставим фокус на поле имени после плавного скролла
             setTimeout(() => {
                 const nameInput = document.getElementById('user_name');
                 if (nameInput) {
@@ -135,12 +126,13 @@ document.addEventListener("DOMContentLoaded", function() {
        5. Отправка данных через Webhook (Fetch API)
        ========================================= */
     form.addEventListener('submit', async function(e) {
-        // Останавливаем стандартную перезагрузку страницы
         e.preventDefault();
 
-        // 1. Собираем данные из полей формы в единый объект
+        // 1. Собираем данные (теперь берем тариф из выбранной радио-кнопки)
+        const selectedPlanValue = document.querySelector('input[name="tariff_plan"]:checked').value;
+        
         const formData = {
-            plan: document.getElementById('hidden-plan-input').value,
+            plan: selectedPlanValue,
             name: document.getElementById('user_name').value,
             phone: document.getElementById('user_phone').value,
             email: document.getElementById('user_email').value,
@@ -148,29 +140,25 @@ document.addEventListener("DOMContentLoaded", function() {
             source: 'Лендинг Palantir'
         };
 
-        // 2. Меняем состояние кнопки (UX: показываем процесс загрузки)
         const originalBtnText = submitBtn.innerText;
         submitBtn.innerText = 'Отправка данных...';
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
 
-        // 3. ВСТАВЬТЕ СЮДА ВАШ URL ВЕБХУКА (между кавычками)
-        const webhookUrl = 'https://webhook.site/70f8abea-489d-48be-acbc-5bad21060ab7';
+        // ВАШ ВЕБХУК
+        const webhookUrl = 'https://ВАШ_АДРЕС_ВЕБХУКА_ЗДЕСЬ';
 
         try {
-            // 4. Отправляем POST-запрос на вебхук
             const response = await fetch(webhookUrl, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(formData) // Превращаем данные в JSON
+                body: JSON.stringify(formData) 
             });
 
-            // 5. Проверяем статус ответа
             if (response.ok) {
-                // Если успешно: заменяем форму на красивое сообщение
                 const formBox = document.querySelector('.action-box');
                 formBox.innerHTML = `
                     <div class="success-message">
@@ -179,16 +167,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                 `;
             } else {
-                // Если сервер ответил ошибкой (например, 400 или 500)
-                throw new Error('Ошибка сервера при отправке');
+                throw new Error('Ошибка сервера');
             }
-            
         } catch (error) {
-            // Если пропал интернет или вебхук недоступен
             console.error('Ошибка:', error);
             alert('Произошла ошибка при соединении с сервером. Пожалуйста, попробуйте еще раз.');
-            
-            // Возвращаем кнопку в исходное состояние
             submitBtn.innerText = originalBtnText;
             submitBtn.disabled = false;
             submitBtn.style.opacity = '1';
