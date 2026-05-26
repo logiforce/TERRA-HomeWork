@@ -467,6 +467,8 @@ body {
 
 .pricing-card:hover {
     border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-5px); /* Добавили легкое поднятие карточки вверх */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* Добавили мягкую тень */
 }
 
 .pricing-title {
@@ -558,5 +560,160 @@ body {
 @media (max-width: 768px) {
     .features-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   Блок ACTION (Форма захвата)
+   ========================================= */
+.action-section {
+    padding: 100px 0 140px 0;
+    background: linear-gradient(180deg, #0a0a0c 0%, #050505 100%);
+    display: flex;
+    justify-content: center;
+}
+
+.action-box {
+    background: #121216;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 24px;
+    padding: 60px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Декоративное свечение на фоне формы */
+.action-box::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.action-box h2, .action-box p, .lead-form {
+    position: relative;
+    z-index: 1;
+}
+
+.action-box h2 {
+    font-size: 32px;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.action-box h2 span {
+    color: #3b82f6; /* Акцентное слово в заголовке */
+}
+
+.action-box p {
+    color: #94a3b8;
+    margin-bottom: 40px;
+}
+
+/* Стили полей (Плавающие Label) */
+.form-group {
+    position: relative;
+    margin-bottom: 24px;
+    text-align: left;
+}
+
+.form-group input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px 16px 8px 16px;
+    font-size: 16px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.form-group label {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    font-size: 16px;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+/* Магия плавающих подсказок */
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+    top: 12px;
+    font-size: 11px;
+    color: #3b82f6;
+}
+
+/* Ошибки валидации */
+.error-msg {
+    display: none;
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 4px;
+    position: absolute;
+}
+
+.form-group.invalid input {
+    border-color: #ef4444;
+}
+
+.form-group.invalid .error-msg {
+    display: block;
+}
+
+/* Чекбокс */
+.form-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+.form-checkbox label {
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+}
+
+/* Кнопка */
+.submit-btn {
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+}
+
+.submit-btn:disabled {
+    background: #334155;
+    box-shadow: none;
+    cursor: not-allowed;
+    color: #94a3b8;
+    transform: none;
+}
+
+@media (max-width: 576px) {
+    .action-box {
+        padding: 40px 20px;
+        border-radius: 16px;
     }
 }
