@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function() {
     privacyCheckbox.addEventListener('change', checkFormValidity);
 
     /* =========================================
-       5. Отправка данных через Webhook (Режим no-cors)
+       5. Отправка данных через Webhook
        ========================================= */
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -149,15 +149,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const webhookUrl = 'https://logiforge.app.n8n.cloud/webhook-test/d98a24da-0b97-41d8-96d5-3c546c5347d3';
 
         try {
-            // Отправляем запрос в режиме 'no-cors', чтобы обойти блокировки браузера
+            // Отправляем стандартный запрос с правильным заголовком JSON
             await fetch(webhookUrl, {
                 method: 'POST',
-                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(formData) 
             });
 
             // Если скрипт дошел сюда и не выдал ошибку catch, значит запрос улетел!
-            // Показываем красивое сообщение об успехе:
             const formBox = document.querySelector('.action-box');
             formBox.innerHTML = `
                 <div class="success-message">
