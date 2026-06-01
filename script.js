@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
         submitBtn.style.opacity = '0.7';
 
         // ВАШ ВЕБХУК (Убедитесь, что тут HTTPS!)
-        const webhookUrl = 'https://webhook.site/70f8abea-489d-48be-acbc-5bad21060ab7';
+        const webhookUrl = 'https://logiforge.app.n8n.cloud/webhook-test/d98a24da-0b97-41d8-96d5-3c546c5347d3';
 
         try {
             // Отправляем запрос в режиме 'no-cors', чтобы обойти блокировки браузера
