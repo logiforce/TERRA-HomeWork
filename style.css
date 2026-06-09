@@ -1051,3 +1051,225 @@ body {
 background-image:
     radial-gradient(circle at 10% 20%, rgba(59,130,246,0.12) 0%, transparent 60%),
     radial-gradient(circle at 80% 80%, rgba(16,185,129,0.10) 0%, transparent 50%);
+
+/* =========================================
+   6. Блок DEMO (Интерактивный тест-драйв)
+   ========================================= */
+.demo-section {
+    padding: 120px 0;
+    background-color: #0a0a0c; /* Родной глубокий темный цвет */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.demo-box {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 60px 40px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position: relative;
+}
+
+.demo-box h2 {
+    font-size: 32px;
+    color: #ffffff;
+    margin-bottom: 12px;
+    cursor: default;
+}
+
+.demo-box h2 span {
+    color: #3b82f6; /* Фирменный синий акцент */
+}
+
+.demo-box p {
+    color: #94a3b8;
+    margin-bottom: 40px;
+    font-size: 16px;
+}
+
+/* Сетка для полей в одну строку на десктопе */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* Стилизация выпадающего списка под общий стиль */
+.form-group select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 20px 16px 8px 16px;
+    font-size: 16px;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Кастомная стрелочка для селекта */
+.select-group {
+    position: relative;
+}
+
+.select-group::after {
+    content: '▼';
+    font-size: 10px;
+    color: #64748b;
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* Поднятие label для select при фокусе или выборе значения */
+.form-group select:focus + label,
+.form-group select:valid + label {
+    top: 12px;
+    font-size: 11px;
+    color: #3b82f6;
+}
+
+.demo-submit-btn {
+    width: 100%;
+    margin-top: 12px;
+}
+
+/* Вспомогательный класс скрытия элементов */
+.hidden {
+    display: none !important;
+}
+
+/* Панель результатов */
+.demo-results-wrapper {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: left;
+}
+
+/* Кастомный интерактивный лоадер */
+.demo-status-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 30px;
+    background: rgba(59, 130, 246, 0.02);
+    border: 1px dashed rgba(59, 130, 246, 0.2);
+    border-radius: 12px;
+    text-align: center;
+}
+
+.premium-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(59, 130, 246, 0.1);
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: demoSpin 1s linear infinite;
+}
+
+@keyframes demoSpin {
+    to { transform: rotate(360deg); }
+}
+
+#demo-status-text {
+    color: #94a3b8;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Стилизация таблицы лидов */
+.demo-results-table h3 {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.leads-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.leads-table th, .leads-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.leads-table th {
+    background: rgba(255, 255, 255, 0.02);
+    color: #64748b;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 1px;
+}
+
+.leads-table td {
+    color: #cbd5e1;
+    line-height: 1.5;
+}
+
+.leads-table tr:last-child td {
+    border-bottom: none;
+}
+
+.leads-username {
+    color: #3b82f6;
+    font-weight: 600;
+}
+
+.lead-keyword-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+.demo-table-note {
+    font-size: 13px;
+    color: #64748b;
+    line-height: 1.5;
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+    .demo-box {
+        padding: 40px 20px;
+    }
+}
