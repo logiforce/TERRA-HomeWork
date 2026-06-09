@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    /* =========================================
+   /* =========================================
        6. Логика интерактивного тест-драйва (Demo Block)
        ========================================= */
     const demoForm = document.getElementById('demo-parser-form');
@@ -205,65 +205,108 @@ document.addEventListener("DOMContentLoaded", function() {
             // Умная нормализация ввода ссылки на чат для статус-бара
             let displayChat = chat;
             if (displayChat.includes('t.me/')) {
-                // Извлекаем название чата из ссылки t.me/название
                 displayChat = '@' + displayChat.split('t.me/')[1].split('/')[0].split('?')[0];
             } else if (!displayChat.startsWith('@')) {
                 displayChat = '@' + displayChat;
             }
             
+            // Меняем состояние кнопки на момент отправки запроса
             demoSubmitBtn.disabled = true;
-            demoSubmitBtn.innerText = 'Запуск локального парсера...';
+            demoSubmitBtn.innerText = 'Связь с парсером...';
             
+            // Показываем лоадер и прячем старую таблицу результатов (если она была)
             demoResultsWrapper.classList.remove('hidden');
             demoLoader.classList.remove('hidden');
             demoTableContainer.classList.add('hidden');
             
-            // Прогресс-статусы с использованием нормализованного имени чата
-            const processingSteps = [
-                { text: 'Инициализация сессии технического аккаунта...', time: 0 },
-                { text: `Проверка доступности чата ${displayChat} через прокси-сервер...`, time: 2000 },
-                { text: `Сканирование последних 200 сообщений в истории чата...`, time: 4500 },
-                { text: `Фильтрация контента по ключевым маркерам: [ ${keywords} ]...`, time: 7000 },
-                { text: 'Формирование и запись демонстрационной таблицы лидов...', time: 9500 }
+            // Красивая плавная смена статусов в процессе ожидания ответа от Python
+            const messages = [
+                'Инициализация сессии технического аккаунта...',
+                `Проверяем доступность чата ${displayChat}...`,
+                'Сканируем последние 200 сообщений в истории...',
+                `Фильтруем контент по ключевым словам: [ ${keywords} ]...`,
+                'Формируем интерактивную таблицу горячих лидов...'
             ];
             
-            processingSteps.forEach(step => {
-                setTimeout(() => {
-                    demoStatusText.innerText = step.text;
-                }, step.time);
-            });
+            let msgIdx = 0;
+            demoStatusText.innerText = messages[msgIdx];
+            const statusInterval = setInterval(() => {
+                if (msgIdx < messages.length - 1) {
+                    msgIdx++;
+                    demoStatusText.innerText = messages[msgIdx];
+                }
+            }, 2200);
             
-            setTimeout(() => {
+            // Адрес твоего запущенного локального Python-сервера
+            const backendUrl = "http://127.0.0.1:8000/api/search-leads";
+            
+            // Отправляем реальные данные формы в наш парсер
+            fetch(backendUrl, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    niche: nicheText,
+                    chat: chat,
+                    keywords: keywords,
+                    user_tg: userTg
+                })
+            })
+            .then(response => {
+                clearInterval(statusInterval); // Останавливаем счетчик статусов
+                if (!response.ok) {
+                    throw new Error("Ошибка при обработке запроса сервером парсера.");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Скрываем загрузчик и открываем блок таблицы
                 demoLoader.classList.add('hidden');
                 demoTableContainer.classList.remove('hidden');
                 
-                const keywordsArr = keywords.split(',').map(item => item.trim());
+                // Проверяем, вернул ли нам Python-парсер реальных лидов
+                if (data.leads && data.leads.length > 0) {
+                    // Динамически рендерим строки с реальными данными из Telegram чата
+                    demoLeadsTbody.innerHTML = data.leads.map(lead => `
+                        <tr>
+                            <td><span class="leads-username">${lead.username}</span></td>
+                            <td>
+                                "${lead.text}"
+                                <br><span class="lead-keyword-badge">Триггер: ${lead.keyword}</span>
+                            </td>
+                            <td><a href="#" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px;" onclick="alert('В демо-режиме прямые ссылки заблокированы. Полная версия Palantir позволяет писать клиенту в 1 клик.'); return false;">Открыть диалог</a></td>
+                        </tr>
+                    `).join('');
+                } else {
+                    // Если за 200 сообщений совпадений по ключевым словам не нашлось
+                    demoLeadsTbody.innerHTML = `
+                        <tr>
+                            <td colspan="3" style="text-align: center; color: #64748b; padding: 40px;">
+                                По вашим ключевым словам в этом чате за последнее время не нашлось горячих запросов.<br>
+                                <span style="font-size: 12px; color: #475569;">Но парсер успешно проверил чат и отправил уведомление на ваш Telegram!</span>
+                            </td>
+                        </tr>
+                    `;
+                }
                 
-                demoLeadsTbody.innerHTML = `
-                    <tr>
-                        <td><span class="leads-username">@alex_manager</span></td>
-                        <td>
-                            "Привет! Посоветуйте надежного исполнителя, интересует <strong>${keywordsArr[0] || 'услуга'}</strong> в сфере «${nicheText}». Работаем по договору."
-                            <br><span class="lead-keyword-badge">Триггер: ${keywordsArr[0] || 'ключевое слово'}</span>
-                        </td>
-                        <td><a href="#" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px;" onclick="alert('В демо-режиме ссылки на диалоги заблокированы. В полной версии программы вы кликаете и сразу переходите в чат к лиду.'); return false;">Открыть диалог</a></td>
-                    </tr>
-                    <tr>
-                        <td><span class="leads-username">@dmitry_digital</span></td>
-                        <td>
-                            "Всем привет. Срочно <strong>${keywordsArr[1] || keywordsArr[0] || 'ищу контакты'}</strong>, кто готов взять проект в работу прямо сейчас? Кейсы присылайте в ЛС."
-                            <br><span class="lead-keyword-badge">Триггер: ${keywordsArr[1] || keywordsArr[0] || 'ключевое слово'}</span>
-                        </td>
-                        <td><a href="#" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px;" onclick="alert('В демо-режиме ссылки на диалоги заблокированы. В полной версии программы вы кликаете и сразу переходите в чат к лиду.'); return false;">Открыть диалог</a></td>
-                    </tr>
-                `;
-                
+                // Возвращаем кнопку в исходное состояние
                 demoSubmitBtn.disabled = false;
                 demoSubmitBtn.innerText = 'Найти лидов повторно';
                 
+                // Мягко прокручиваем страницу к результатам
                 demoTableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            })
+            .catch(error => {
+                clearInterval(statusInterval);
+                console.error('Ошибка работы демо-теста:', error);
+                alert('Не удалось получить ответ от локального парсера. Убедитесь, что в черном окне консоли запущен uvicorn и нет ошибок.');
                 
-            }, 11500);
+                // Сбрасываем интерфейс в случае критической ошибки сети
+                demoSubmitBtn.disabled = false;
+                demoSubmitBtn.innerText = 'Найти лидов';
+                demoLoader.classList.add('hidden');
+            });
         });
     }
     
