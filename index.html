@@ -326,6 +326,79 @@
         </div>
     </section>
 
+    <section id="demo" class="demo-section">
+        <div class="container demo-container reveal">
+            <div class="demo-box">
+                <h2>Тест-драйв <span>Palantir</span></h2>
+                <p>Укажите параметры поиска, и наша система в реальном времени соберет демонстрационных лидов из указанного вами чата.</p>
+                
+                <form id="demo-parser-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-group select-group">
+                            <select id="demo_niche" name="demo_niche" required>
+                                <option value="" disabled selected hidden></option>
+                                <option value="interior_design">Дизайн интерьера / Ремонт</option>
+                                <option value="marketing">Маркетинг / Трафик</option>
+                                <option value="development">Разработка / IT-услуги</option>
+                                <option value="beauty">Бьюти / Услуги</option>
+                                <option value="other">Другая ниша</option>
+                            </select>
+                            <label for="demo_niche">Ваша ниша</label>
+                            <span class="error-msg">Выберите нишу</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <input type="text" id="demo_chat" name="demo_chat" placeholder=" " required>
+                            <label for="demo_chat">Telegram-чат для поиска (например, @chat_name)</label>
+                            <span class="error-msg">Укажите ссылку на чат</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="demo_keywords" name="demo_keywords" placeholder=" " required>
+                        <label for="demo_keywords">Ключевые слова через запятую (например: нужен дизайнер, ищу ремонт)</label>
+                        <span class="error-msg">Введите хотя бы одно ключевое слово</span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" id="demo_user_tg" name="demo_user_tg" placeholder=" " required>
+                        <label for="demo_user_tg">Ваш личный Telegram (@username) для отправки полного отчета</label>
+                        <span class="error-msg">Укажите ваш Telegram аккаунт</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary demo-submit-btn" id="demo-submit-btn">Найти лидов</button>
+                </form>
+
+                <div id="demo-results" class="demo-results-wrapper hidden">
+                    
+                    <div class="demo-status-panel" id="demo-loader">
+                        <div class="premium-spinner"></div>
+                        <p id="demo-status-text">Инициализация технического аккаунта...</p>
+                    </div>
+
+                    <div class="demo-results-table hidden" id="demo-table-container">
+                        <h3>🎉 Результаты экспресс-парсинга (Демо-версия)</h3>
+                        <div class="table-responsive">
+                            <table class="leads-table">
+                                <thead>
+                                    <tr>
+                                        <th>Пользователь</th>
+                                        <th>Сообщение / Запрос</th>
+                                        <th>Действие</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="demo-leads-tbody">
+                                    </tbody>
+                            </table>
+                        </div>
+                        <p class="demo-table-note">💡 Это демонстрационный срез данных. Полноценная версия <strong>Palantir</strong> непрерывно сканирует сотни чатов, фильтрует спам нейросетью и сохраняет базу лидов локально на вашем ПК для авто-рассылок.</p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
     <script src="script.js"></script>
 </body>
 
