@@ -191,32 +191,37 @@ document.addEventListener("DOMContentLoaded", function() {
         demoForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Считываем значения полей
             const nicheSelect = document.getElementById('demo_niche');
             const nicheText = nicheSelect.options[nicheSelect.selectedIndex].text;
             const chat = document.getElementById('demo_chat').value.trim();
             const keywords = document.getElementById('demo_keywords').value.trim();
             const userTg = document.getElementById('demo_user_tg').value.trim();
             
-            // Базовая проверка заполненности полей
             if (!nicheSelect.value || !chat || !keywords || !userTg) {
                 alert('Пожалуйста, заполните все поля формы тест-драйва.');
                 return;
             }
             
-            // Отключаем кнопку, имитируя отправку задачи на бэкенд
+            // Умная нормализация ввода ссылки на чат для статус-бара
+            let displayChat = chat;
+            if (displayChat.includes('t.me/')) {
+                // Извлекаем название чата из ссылки t.me/название
+                displayChat = '@' + displayChat.split('t.me/')[1].split('/')[0].split('?')[0];
+            } else if (!displayChat.startsWith('@')) {
+                displayChat = '@' + displayChat;
+            }
+            
             demoSubmitBtn.disabled = true;
             demoSubmitBtn.innerText = 'Запуск локального парсера...';
             
-            // Показываем контейнер результатов и активируем статус-бар
             demoResultsWrapper.classList.remove('hidden');
             demoLoader.classList.remove('hidden');
             demoTableContainer.classList.add('hidden');
             
-            // Тайминги и тексты для симуляции бурной деятельности парсера
+            // Прогресс-статусы с использованием нормализованного имени чата
             const processingSteps = [
                 { text: 'Инициализация сессии технического аккаунта...', time: 0 },
-                { text: `Проверка доступности чата ${chat} через прокси-сервер...`, time: 2000 },
+                { text: `Проверка доступности чата ${displayChat} через прокси-сервер...`, time: 2000 },
                 { text: `Сканирование последних 200 сообщений в истории чата...`, time: 4500 },
                 { text: `Фильтрация контента по ключевым маркерам: [ ${keywords} ]...`, time: 7000 },
                 { text: 'Формирование и запись демонстрационной таблицы лидов...', time: 9500 }
@@ -228,15 +233,12 @@ document.addEventListener("DOMContentLoaded", function() {
                 }, step.time);
             });
             
-            // Финальный вывод демо-данных через 11.5 секунд
             setTimeout(() => {
                 demoLoader.classList.add('hidden');
                 demoTableContainer.classList.remove('hidden');
                 
-                // Превращаем введенную строку ключевых слов в массив для бейджиков
                 const keywordsArr = keywords.split(',').map(item => item.trim());
                 
-                // Рендерим строки таблицы с использованием данных пользователя для вау-эффекта
                 demoLeadsTbody.innerHTML = `
                     <tr>
                         <td><span class="leads-username">@alex_manager</span></td>
@@ -254,21 +256,11 @@ document.addEventListener("DOMContentLoaded", function() {
                         </td>
                         <td><a href="#" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px;" onclick="alert('В демо-режиме ссылки на диалоги заблокированы. В полной версии программы вы кликаете и сразу переходите в чат к лиду.'); return false;">Открыть диалог</a></td>
                     </tr>
-                    <tr>
-                        <td><span class="leads-username">@elena_design_spb</span></td>
-                        <td>
-                            "Коллеги, добрый день! Подскажите, чья основная специализация — это <strong>${keywordsArr[0] || 'эта работа'}</strong>? Нужен субподряд на объект."
-                            <br><span class="lead-keyword-badge">Триггер: ${keywordsArr[0] || 'ключевое слово'}</span>
-                        </td>
-                        <td><a href="#" class="btn btn-outline" style="padding: 8px 14px; font-size: 12px;" onclick="alert('В демо-режиме ссылки на диалоги заблокированы. В полной версии программы вы кликаете и сразу переходите в чат к лиду.'); return false;">Открыть диалог</a></td>
-                    </tr>
                 `;
                 
-                // Возвращаем кнопку в рабочее состояние
                 demoSubmitBtn.disabled = false;
                 demoSubmitBtn.innerText = 'Найти лидов повторно';
                 
-                // Мягко скроллим пользователя к готовой таблице результатов
                 demoTableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 
             }, 11500);
