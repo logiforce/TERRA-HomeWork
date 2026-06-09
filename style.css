@@ -1053,19 +1053,19 @@ background-image:
     radial-gradient(circle at 80% 80%, rgba(16,185,129,0.10) 0%, transparent 50%);
 
 /* =========================================
-   6. Блок DEMO (Интерактивный тест-драйв)
+   6. Блок DEMO (Интерактивный тест-драйв) с добавлением воздуха
    ========================================= */
 .demo-section {
-    padding: 120px 0;
-    background-color: #0a0a0c; /* Родной глубокий темный цвет */
+    padding: 60px 0 120px 0; /* Уменьшили верхний внешний отступ, так как увеличили внутренний */
+    background-color: #0a0a0c;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .demo-box {
     background: rgba(255, 255, 255, 0.01);
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    padding: 60px 40px;
+    border-radius: 20px;
+    padding: 90px 60px; /* Увеличили верхний и нижний отступы с 60px до 90px — теперь блок "дышит" */
     max-width: 800px;
     margin: 0 auto;
     text-align: center;
@@ -1082,7 +1082,7 @@ background-image:
 }
 
 .demo-box h2 span {
-    color: #3b82f6; /* Фирменный синий акцент */
+    color: #3b82f6;
 }
 
 .demo-box p {
@@ -1091,14 +1091,14 @@ background-image:
     font-size: 16px;
 }
 
-/* Сетка для полей в одну строку на десктопе */
+/* Сетка для полей */
 .form-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
-/* Стилизация выпадающего списка под общий стиль */
+/* Стилизация выпадающего списка */
 .form-group select {
     width: 100%;
     background: rgba(255, 255, 255, 0.02);
@@ -1120,6 +1120,13 @@ background-image:
     background: rgba(255, 255, 255, 0.05);
 }
 
+/* Фикс белого фона у элементов списка (Options) */
+.form-group select option {
+    background-color: #121214; /* Принудительный глубокий темный фон */
+    color: #ffffff;            /* Белый цвет текста */
+    padding: 12px;
+}
+
 /* Кастомная стрелочка для селекта */
 .select-group {
     position: relative;
@@ -1136,7 +1143,6 @@ background-image:
     pointer-events: none;
 }
 
-/* Поднятие label для select при фокусе или выборе значения */
 .form-group select:focus + label,
 .form-group select:valid + label {
     top: 12px;
@@ -1149,7 +1155,6 @@ background-image:
     margin-top: 12px;
 }
 
-/* Вспомогательный класс скрытия элементов */
 .hidden {
     display: none !important;
 }
@@ -1162,7 +1167,6 @@ background-image:
     text-align: left;
 }
 
-/* Кастомный интерактивный лоадер */
 .demo-status-panel {
     display: flex;
     flex-direction: column;
@@ -1194,7 +1198,6 @@ background-image:
     font-weight: 500;
 }
 
-/* Стилизация таблицы лидов */
 .demo-results-table h3 {
     font-size: 20px;
     color: #ffffff;
@@ -1263,13 +1266,12 @@ background-image:
     line-height: 1.5;
 }
 
-/* Адаптивность для мобильных */
 @media (max-width: 768px) {
     .form-row {
         grid-template-columns: 1fr;
         gap: 0;
     }
     .demo-box {
-        padding: 40px 20px;
+        padding: 50px 24px; /* Адаптивные отступы для мобильных */
     }
 }
