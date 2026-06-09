@@ -1275,3 +1275,10 @@ background-image:
         padding: 50px 24px; /* Адаптивные отступы для мобильных */
     }
 }
+
+/* Красная приглушенная обводка для пустых полей */
+.form-group input.invalid-field,
+.form-group select.invalid-field {
+    border-color: rgba(239, 68, 68, 0.4) !important; /* Мягкий красный цвет с прозрачностью */
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1);
+}
