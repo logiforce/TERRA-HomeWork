@@ -187,20 +187,55 @@ document.addEventListener("DOMContentLoaded", function() {
     const demoStatusText = document.getElementById('demo-status-text');
     const demoLeadsTbody = document.getElementById('demo-leads-tbody');
 
+    // Проверяем при загрузке страницы, отправлял ли уже пользователь запрос
+    if (localStorage.getItem('palantir_demo_completed') === 'true') {
+        if (demoSubmitBtn) {
+            demoSubmitBtn.disabled = true;
+            demoSubmitBtn.innerText = 'Демо-режим использован (1 запрос на устройство)';
+            demoSubmitBtn.style.opacity = '0.5';
+            demoSubmitBtn.style.cursor = 'not-allowed';
+        }
+    }
+
     if (demoForm) {
+        // Собираем все поля в массив для удобной валидации
+        const nicheSelect = document.getElementById('demo_niche');
+        const chatInput = document.getElementById('demo_chat');
+        const keywordsInput = document.getElementById('demo_keywords');
+        const userTgInput = document.getElementById('demo_user_tg');
+        const allFields = [nicheSelect, chatInput, keywordsInput, userTgInput];
+
+        // Очищаем красную обводку, как только пользователь начинает исправлять ошибку
+        allFields.forEach(field => {
+            const eventType = field.tagName === 'SELECT' ? 'change' : 'input';
+            field.addEventListener(eventType, function() {
+                field.classList.remove('invalid-field');
+            });
+        });
+
         demoForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const nicheSelect = document.getElementById('demo_niche');
-            const nicheText = nicheSelect.options[nicheSelect.selectedIndex].text;
-            const chat = document.getElementById('demo_chat').value.trim();
-            const keywords = document.getElementById('demo_keywords').value.trim();
-            const userTg = document.getElementById('demo_user_tg').value.trim();
-            
-            if (!nicheSelect.value || !chat || !keywords || !userTg) {
-                alert('Пожалуйста, заполните все поля формы тест-драйва.');
+            // Строгая проверка заполненности полей
+            let isFormValid = true;
+            allFields.forEach(field => {
+                if (!field.value || !field.value.trim()) {
+                    field.classList.add('invalid-field');
+                    isFormValid = false;
+                } else {
+                    field.classList.remove('invalid-field');
+                }
+            });
+
+            // Если хоть одно поле пустое — прерываем выполнение
+            if (!isFormValid) {
                 return;
             }
+            
+            const nicheText = nicheSelect.options[nicheSelect.selectedIndex].text;
+            const chat = chatInput.value.trim();
+            const keywords = keywordsInput.value.trim();
+            const userTg = userTgInput.value.trim();
             
             // Умная нормализация ввода ссылки на чат для статус-бара
             let displayChat = chat;
@@ -210,16 +245,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 displayChat = '@' + displayChat;
             }
             
-            // Меняем состояние кнопки на момент отправки запроса
             demoSubmitBtn.disabled = true;
             demoSubmitBtn.innerText = 'Связь с парсером...';
             
-            // Показываем лоадер и прячем старую таблицу результатов (если она была)
             demoResultsWrapper.classList.remove('hidden');
             demoLoader.classList.remove('hidden');
-            demoTableContainer.classList.add('hidden');
+            demoTableContainer.add && demoTableContainer.classList.add('hidden');
             
-            // Красивая плавная смена статусов в процессе ожидания ответа от Python
             const messages = [
                 'Инициализация сессии технического аккаунта...',
                 `Проверяем доступность чата ${displayChat}...`,
@@ -237,37 +269,46 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }, 2200);
             
-            // Адрес твоего запущенного локального Python-сервера
-            const backendUrl = "http://127.0.0.1:8000/api/search-leads";
+            // Переменные для интеграций
+            const googleSheetUrl = "https://script.google.com/macros/s/AKfycbxfpvFvq6yKz6JgPX-kUgchyoGa-UbfXDC1BGV1crl1tm4kx46Mzrs6ABnLgSJ6Wz3vKg/exec"; 
+            const localParserUrl = "http://127.0.0.1:8000/api/search-leads";
             
-            // Отправляем реальные данные формы в наш парсер
-            fetch(backendUrl, {
+            const payloadData = {
+                niche: nicheText,
+                chat: chat,
+                keywords: keywords,
+                user_tg: userTg
+            };
+
+            // ЭТАП 1: Моментально сохраняем лида в Google Таблицу (работает в фоне)
+            fetch(googleSheetUrl, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    niche: nicheText,
-                    chat: chat,
-                    keywords: keywords,
-                    user_tg: userTg
-                })
+                mode: "no-cors", // Позволяет отправлять данные без проблем со стороны Google безопасности
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payloadData)
+            }).catch(err => console.log("Google Sheets Logging Bypass/Error: ", err));
+
+            // ЭТАП 2: Основной запрос к твоему Python-парсеру на ПК
+            fetch(localParserUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payloadData)
             })
             .then(response => {
-                clearInterval(statusInterval); // Останавливаем счетчик статусов
+                clearInterval(statusInterval);
                 if (!response.ok) {
                     throw new Error("Ошибка при обработке запроса сервером парсера.");
                 }
                 return response.json();
             })
             .then(data => {
-                // Скрываем загрузчик и открываем блок таблицы
                 demoLoader.classList.add('hidden');
                 demoTableContainer.classList.remove('hidden');
                 
-                // Проверяем, вернул ли нам Python-парсер реальных лидов
+                // Запоминаем компьютер пользователя, чтобы он больше не мог отправить форму
+                localStorage.setItem('palantir_demo_completed', 'true');
+                
                 if (data.leads && data.leads.length > 0) {
-                    // Динамически рендерим строки с реальными данными из Telegram чата
                     demoLeadsTbody.innerHTML = data.leads.map(lead => `
                         <tr>
                             <td><span class="leads-username">${lead.username}</span></td>
@@ -279,30 +320,28 @@ document.addEventListener("DOMContentLoaded", function() {
                         </tr>
                     `).join('');
                 } else {
-                    // Если за 200 сообщений совпадений по ключевым словам не нашлось
                     demoLeadsTbody.innerHTML = `
                         <tr>
                             <td colspan="3" style="text-align: center; color: #64748b; padding: 40px;">
                                 По вашим ключевым словам в этом чате за последнее время не нашлось горячих запросов.<br>
-                                <span style="font-size: 12px; color: #475569;">Но парсер успешно проверил чат и отправил уведомление на ваш Telegram!</span>
+                                <span style="font-size: 12px; color: #475569;">Но мы проверили чат и отправили системный отчет на ваш Telegram!</span>
                             </td>
                         </tr>
                     `;
                 }
                 
-                // Возвращаем кнопку в исходное состояние
-                demoSubmitBtn.disabled = false;
-                demoSubmitBtn.innerText = 'Найти лидов повторно';
+                // Изменяем текст кнопки на финальный заблокированный
+                demoSubmitBtn.innerText = 'Демо-режим использован (1 запрос на устройство)';
+                demoSubmitBtn.style.opacity = '0.5';
+                demoSubmitBtn.style.cursor = 'not-allowed';
                 
-                // Мягко прокручиваем страницу к результатам
                 demoTableContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             })
             .catch(error => {
                 clearInterval(statusInterval);
                 console.error('Ошибка работы демо-теста:', error);
-                alert('Не удалось получить ответ от локального парсера. Убедитесь, что в черном окне консоли запущен uvicorn и нет ошибок.');
+                alert('Не удалось получить ответ от локального парсера. Убедитесь, что на компьютере запущено черное окно uvicorn.');
                 
-                // Сбрасываем интерфейс в случае критической ошибки сети
                 demoSubmitBtn.disabled = false;
                 demoSubmitBtn.innerText = 'Найти лидов';
                 demoLoader.classList.add('hidden');
